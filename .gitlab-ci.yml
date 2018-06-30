@@ -1,0 +1,115 @@
+image: node:8.9.4
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - build
+  - test
+  - deploy
+
+# build stages
+
+build develop:
+  stage: build
+  script:
+    - npm install
+    - npm run build:develop
+  environment:
+    name: develop
+    url: https://develop.example.com
+  only:
+    - develop
+
+
+build staging:
+  stage: build
+  script:
+    - npm install
+    - npm run build:staging
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - staging
+  
+build prod:
+  stage: build
+  script:
+    - npm install
+    - npm run build:prod
+  environment:
+    name: prod
+    url: https://prod.example.com
+  only:
+    - master
+
+  # remember to combine but add stuff
+
+# test
+
+test develop:
+  stage: test
+  script:
+    - npm run test
+  only:
+    - develop
+
+
+test staging:
+  stage: test
+  script:
+    - npm run test
+  only:
+    - staging
+
+test prod:
+  stage: test
+  script:
+    - npm run test
+  only:
+    - master
+
+# remember to combine
+
+# Deployment
+
+deploy prod:
+  stage: deploy
+  script:
+    - git reset --hard $CI_COMMIT_SHA
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_API_NAME.git
+    - git push -f heroku HEAD:master
+  variables:
+    HEROKU_API_NAME: test-app-benedictong42-prod
+  environment:
+    name: prod
+  only:
+    - master
+
+deploy staging:
+  stage: deploy
+  script:
+    - git reset --hard $CI_COMMIT_SHA
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_API_NAME.git
+    - git push -f heroku HEAD:master
+  variables:
+    HEROKU_API_NAME: test-app-benedictong42-staging
+  environment:
+    name: staging
+  only:
+    - staging
+
+deploy dev:
+  stage: deploy
+  script:
+    - git reset --hard $CI_COMMIT_SHA
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_API_NAME.git
+    - git push -f heroku HEAD:master
+  variables:
+    HEROKU_API_NAME: test-app-benedictong42-develop
+  environment:
+    name: develop
+  only:
+    - develop

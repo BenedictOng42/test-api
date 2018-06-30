@@ -1,0 +1,16 @@
+{
+  "ignore": [
+      "src",
+      ".babelrc",
+      ".gitignore",
+      "heroku_deploy.sh",
+      "Gulpfile.js",
+      "LICENSE",
+      "nodemon.json",
+      "package-lock.json",
+      "package.json",
+      "Procfile",
+      "README.md",
+      "database"
+  ]
+}
