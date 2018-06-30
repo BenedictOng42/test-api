@@ -1,5 +1,5 @@
-import { addSession } from './Session';
+import Session from './Session';
 
 export default {
-  addSession,
+  ...Session,
 };

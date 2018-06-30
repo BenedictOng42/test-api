@@ -1,13 +1,14 @@
 const RootQuery = `
   type RootQuery {
+
     # Retrieve Songs
     getAllSongs: [Song]
   
     # Retrieve Specific Song
-    getSong(songName: String): [Song]
+    getSong(_id: ID!): Song
 
     # Retrieve Session
-    getSession(sessionId: Int!): Session
+    getSession(_id: ID!): Session
 
   }
 `;
